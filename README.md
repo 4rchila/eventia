@@ -2,6 +2,8 @@
 
 Plataforma web para publicar eventos, buscar actividades e inscribirse. Actividad de Programación Web (URL).
 
+**Demo:** https://eventia-pied.vercel.app · API docs: https://eventia-pied.vercel.app/api/docs
+
 ## Requisitos
 
 - Node.js 18+

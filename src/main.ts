@@ -15,7 +15,12 @@ async function bootstrap() {
     .setDescription('API de eventos universitarios')
     .addBearerAuth()
     .build();
-  SwaggerModule.setup('api/docs', app, SwaggerModule.createDocument(app, swagger));
+  // Assets desde CDN: en Vercel swagger-ui-dist no se empaqueta en la función.
+  const swaggerCdn = 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.18.2';
+  SwaggerModule.setup('api/docs', app, SwaggerModule.createDocument(app, swagger), {
+    customCssUrl: `${swaggerCdn}/swagger-ui.min.css`,
+    customJs: [`${swaggerCdn}/swagger-ui-bundle.min.js`, `${swaggerCdn}/swagger-ui-standalone-preset.min.js`],
+  });
 
   app.useStaticAssets(join(__dirname, '..', 'public'));
 
