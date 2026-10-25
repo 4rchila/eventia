@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eventia — descubre y reserva eventos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div>
+          <h1>Eventia</h1>
+          <span>Campus y ciudad</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span id="session" class="session-pill">Sin sesión</span>
+        <button type="button" id="logout" class="btn btn-ghost" hidden>Salir</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <section id="panel-auth" class="panel">
+          <h2>Tu cuenta</h2>
+          <div class="tabs" role="tablist">
+            <button type="button" class="tab active" data-tab="login" role="tab">
+              Entrar
+            </button>
+            <button type="button" class="tab" data-tab="register" role="tab">
+              Registro
+            </button>
+          </div>
+          <div id="tab-login" class="tab-panel" role="tabpanel">
+            <form id="form-login">
+              <div class="field">
+                <label for="login-correo">Correo</label>
+                <input id="login-correo" name="correo" type="email" required autocomplete="email" />
+              </div>
+              <div class="field">
+                <label for="login-password">Contraseña</label>
+                <input
+                  id="login-password"
+                  name="password"
+                  type="password"
+                  required
+                  autocomplete="current-password"
+                />
+              </div>
+              <button type="submit" class="btn btn-primary" style="width: 100%">Iniciar sesión</button>
+            </form>
+          </div>
+          <div id="tab-register" class="tab-panel hidden" role="tabpanel">
+            <form id="form-register">
+              <div class="field">
+                <label for="reg-nombre">Nombre</label>
+                <input id="reg-nombre" name="nombre" required autocomplete="name" />
+              </div>
+              <div class="field">
+                <label for="reg-correo">Correo</label>
+                <input id="reg-correo" name="correo" type="email" required autocomplete="email" />
+              </div>
+              <div class="field">
+                <label for="reg-password">Contraseña (mín. 6)</label>
+                <input
+                  id="reg-password"
+                  name="password"
+                  type="password"
+                  minlength="6"
+                  required
+                  autocomplete="new-password"
+                />
+              </div>
+              <button type="submit" class="btn btn-primary" style="width: 100%">Crear cuenta</button>
+            </form>
+          </div>
+        </section>
+
+        <section id="panel-welcome" class="panel hidden">
+          <h2>Hola de nuevo</h2>
+          <p id="welcome-text" class="event-meta" style="margin: 0 0 1rem"></p>
+          <div id="panel-inscripciones">
+            <h2 style="font-size: 1rem; margin-bottom: 0.5rem">Tus inscripciones</h2>
+            <ul id="inscripciones-list" class="inscripciones-list"></ul>
+          </div>
+        </section>
+
+        <section id="panel-organizador" class="panel hidden">
+          <h2>Publicar evento</h2>
+          <p class="event-meta" style="margin: 0 0 1rem">Solo organizadores pueden crear actividades.</p>
+          <form id="form-evento">
+            <div class="field">
+              <label for="ev-titulo">Título</label>
+              <input id="ev-titulo" name="titulo" required />
+            </div>
+            <div class="field">
+              <label for="ev-fecha">Fecha y hora</label>
+              <input id="ev-fecha" name="fecha" type="datetime-local" required />
+            </div>
+            <div class="field">
+              <label for="ev-cupo">Cupo</label>
+              <input id="ev-cupo" name="cupo" type="number" min="1" required />
+            </div>
+            <div class="field">
+              <label for="ev-precio">Precio (Q)</label>
+              <input id="ev-precio" name="precio" type="number" min="0" step="0.01" value="0" required />
+            </div>
+            <div class="field">
+              <label for="ev-descripcion">Descripción</label>
+              <input id="ev-descripcion" name="descripcion" />
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%">Publicar</button>
+          </form>
+        </section>
+
+        <section id="panel-inscribir" class="panel hidden">
+          <h2>Inscribirse</h2>
+          <form id="form-inscripcion">
+            <div class="field">
+              <label for="ins-evento">Evento</label>
+              <select id="ins-evento" name="eventoId" required></select>
+            </div>
+            <div class="field">
+              <label for="ins-cantidad">Cantidad (1–5)</label>
+              <input id="ins-cantidad" name="cantidad" type="number" min="1" max="5" value="1" required />
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%">Confirmar inscripción</button>
+          </form>
+        </section>
+      </aside>
+
+      <main class="main">
+        <section class="hero">
+          <h2>Encuentra tu próximo evento</h2>
+          <p>Conciertos, ferias y actividades del campus. Busca por nombre y reserva tu lugar.</p>
+          <form id="form-search" class="search-bar">
+            <input name="q" type="search" placeholder="Buscar por título…" autocomplete="off" />
+            <button type="submit" class="btn btn-primary">Buscar</button>
+            <button type="button" id="btn-reload" class="btn btn-ghost">Ver todos</button>
+          </form>
+        </section>
+        <div id="eventos-grid" class="events-grid" aria-live="polite"></div>
+        <p id="eventos-empty" class="empty-state hidden">No hay eventos que coincidan con tu búsqueda.</p>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      API documentada en <a href="/api/docs">Swagger</a> · Proyecto académico Programación Web
+    </footer>
+
+    <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>
