@@ -43,7 +43,7 @@ npm run test:e2e
 
 Usa la base `data/eventia-e2e.sqlite`.
 
-Cubre (12 tests): login correcto/incorrecto, rutas protegidas sin token (401), token válido (200), token vencido (401), registro que intenta asignarse rol (400), organizador edita su evento (200), edición de evento cerrado (409), autorización por rol e inscripciones con control de cupo.
+Cubre (12 tests): login con mensaje genérico, token ausente/inválido/vencido (401), token válido (200), registro que intenta asignarse rol (400), cupo negativo (400), inscripción que supera el cupo, organizador que edita evento ajeno (403) o propio (200), evento cerrado (409) y usuario que consulta inscripción ajena.
 
 ## Despliegue (Vercel)
 
