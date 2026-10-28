@@ -47,6 +47,15 @@ Usa la base `data/eventia-e2e.sqlite`.
 
 Cubre (12 tests): login con mensaje genérico, token ausente/inválido/vencido (401), token válido (200), registro que intenta asignarse rol (400), cupo negativo (400), inscripción que supera el cupo, organizador que edita evento ajeno (403) o propio (200), evento cerrado (409) y usuario que consulta inscripción ajena.
 
+## Docker (PostgreSQL con volumen)
+
+```bash
+docker compose up -d --build   # app en http://localhost:3000, Postgres con volumen pgdata
+docker compose down            # los datos persisten en el volumen pgdata
+```
+
+Si `DATABASE_URL` está definida se usa PostgreSQL; si no, SQLite local.
+
 ## Despliegue (Vercel)
 
 Vercel detecta NestJS sin configuración adicional. Variables necesarias:

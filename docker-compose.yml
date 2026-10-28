@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: eventia
+      POSTGRES_PASSWORD: eventia
+      POSTGRES_DB: eventia
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U eventia"]
+      interval: 3s
+      retries: 10
+
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgres://eventia:eventia@db:5432/eventia?sslmode=disable
+      JWT_SECRET: ${JWT_SECRET:-solo-para-docker-local}
+      JWT_EXPIRES: 1h
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

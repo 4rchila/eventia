@@ -50,9 +50,13 @@ export class InscriptionsService {
     dto: CreateInscripcionDto,
     actor: JwtPayload,
   ): Promise<InscripcionResponse> {
-    // ponytail: SQLite serializa escrituras; la transacción basta aquí. Con Postgres, bloquear la fila del evento
+    // SQLite serializa escrituras; en Postgres se bloquea la fila del evento para no sobrepasar el cupo.
+    const lock =
+      this.dataSource.options.type === 'postgres'
+        ? ({ mode: 'pessimistic_write' } as const)
+        : undefined;
     return this.dataSource.transaction(async (manager) => {
-      const evento = await manager.findOne(Evento, { where: { id: eventoId } });
+      const evento = await manager.findOne(Evento, { where: { id: eventoId }, lock });
       if (!evento) {
         throw new NotFoundException();
       }

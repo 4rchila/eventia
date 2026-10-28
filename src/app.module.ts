@@ -18,6 +18,18 @@ import { UsersModule } from './users/users.module';
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
+        const entities = [User, Evento, Inscripcion];
+        const url = config.get<string>('DATABASE_URL');
+        if (url) {
+          // PostgreSQL (Neon/Docker). ssl salvo que la URL lo desactive (sslmode=disable).
+          return {
+            type: 'postgres',
+            url,
+            ssl: url.includes('sslmode=disable') ? false : { rejectUnauthorized: false },
+            entities,
+            synchronize: true,
+          };
+        }
         const database =
           config.get<string>('DATABASE_PATH') ??
           join(process.cwd(), 'data', 'eventia.sqlite');
@@ -25,7 +37,7 @@ import { UsersModule } from './users/users.module';
         return {
           type: 'sqlite',
           database,
-          entities: [User, Evento, Inscripcion],
+          entities,
           synchronize: true,
         };
       },
