@@ -64,9 +64,11 @@ Vercel detecta NestJS sin configuración adicional. Variables necesarias:
 | --- | --- |
 | JWT_SECRET | secreto propio (no reutilizar el de `.env`) |
 | JWT_EXPIRES | 1h |
-| DATABASE_PATH | /tmp/eventia.sqlite |
+| DATABASE_URL | la inyecta Neon (Vercel → Storage → Neon) |
 
-Limitación: en serverless SQLite vive en `/tmp` y es efímero; los datos se reinician con la semilla en cada arranque en frío. Para persistencia real habría que usar una base gestionada (p. ej. Postgres).
+Sin `DATABASE_URL` se usa SQLite en `DATABASE_PATH` (p. ej. `/tmp/eventia.sqlite`), que en serverless es efímero: los datos vuelven a la semilla en cada arranque en frío.
+
+Informe de despliegue, Docker y persistencia: [docs/actividad-27.md](docs/actividad-27.md).
 
 ## Nota para revisores
 
